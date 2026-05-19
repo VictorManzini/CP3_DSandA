@@ -25,14 +25,6 @@ float valorOp[3] = {0.0, 0.0, 0.0};
    MAIN
    ============================================================ */
 int main() {
-    int opcao; 
-    system("cls");
-    exibirMenu();
-    scanf("%d", &opcao);
-    while (getchar() != '\n');
-    if(opcao <0 || opcao > 3){
-        printf("Opcao invalida... tente novamente\n");
-    }
 
     /* TODO: declare a variável saldo com valor inicial R$500.00 */
     float saldo = 500.0;
@@ -41,14 +33,48 @@ int main() {
 
     /* TODO: implemente o loop do-while que mantém o sistema rodando
        enquanto opcao != 0 */
+    int opcao; 
     do {
+        system("cls");
+        exibirMenu();
+        scanf("%d", &opcao);
+        if(opcao <0 || opcao > 4){
+            printf("Opcao invalida... tente novamente\n");
+        }
+        while (getchar() != '\n');
 
-        /* TODO: chame exibirMenu() aqui */
+        switch(opcao){
+            case 1: 
+            printf("Opcao 1, Consultar saldo, selecionada\n");
+            consultarSaldo(saldo);
+            break;
 
-        /* TODO: leia a opção do usuário com scanf */
+            case 2: 
+            printf("Opcao 2, Realizar saque, selecionada\n");
+            saldo = realizarSaque(saldo);
+            break;
 
-        /* TODO: limpe o buffer do teclado com:
-           while (getchar() != '\n'); */
+            case 3:
+            printf("Opcao 3, Realizar deposito, selecionada\n"); 
+            saldo = realizarDeposito(saldo);
+            break;
+
+            case 4: 
+            printf("Opcao 4, Ver o extrato, selecionada\n");
+            exibirExtrato(saldo); 
+            break;
+
+            case 0: 
+            printf("Opcao Sair selecionada...\n");
+            printf("Obrigado por usar nossa ATM\n");
+            printf("Ate logo...\n");
+            break;
+
+            default:
+            printf("Opcao invalida... tente novamente\n");
+        }
+            
+        
 
         /* TODO: implemente o switch-case com os casos:
            1 - Consultar Saldo   → consultarSaldo(saldo)
@@ -75,6 +101,7 @@ void exibirMenu() {
     printf("1 - Consultar saldo\n");
     printf("2 -  Realizar saque\n");
     printf("3 - Realizar deposito\n");
+    printf("4 - Ver o extrato\n");
     printf("0 - Encerrar o programa\n"); 
     printf("Digite uma das opcoes: ");
 
@@ -87,7 +114,11 @@ void exibirMenu() {
    Não altera nada, por isso retorno void.
    ============================================================ */
 void consultarSaldo(float saldo) {
-    /* TODO: imprima o saldo formatado com %.2f */
+    printf("Saldo disponivel %.2f\n", saldo);
+
+    printf("Precione Enter para continuar...");
+    getchar();
+    printf("\n");
 
     /* TODO: pause para o usuário ler:
        printf("\nPressione Enter para continuar...");
@@ -102,7 +133,23 @@ void consultarSaldo(float saldo) {
    ============================================================ */
 float realizarSaque(float saldo) {
     float valor;
-
+    do{
+        printf("Digite o valor que deseja sacar: ");
+        scanf("%f", &valor);
+        while(getchar() != '\n');
+        if(valor <= 0){
+            printf("Valor invalido... tente novamente\n");
+        }
+        else if(valor > saldo){
+            printf("Saldo insuficiente... tente novamente\n");
+            valor = 0;
+        }
+        else{
+            printf("Saque de %.2f realizado\n", valor);
+            saldo -= valor; 
+            registrarOperacao('S', valor);
+        }
+    } while(valor <= 0);
     /* TODO: peça o valor do saque com printf + scanf */
 
     /* TODO: valide:
@@ -126,6 +173,20 @@ float realizarSaque(float saldo) {
 float realizarDeposito(float saldo) {
     float valor;
 
+    do{
+        printf("Digite o valor que deseja depositar: ");
+        scanf("%f", &valor);
+        while(getchar() != '\n');
+        if(valor <= 0){
+            printf("Valor invalido, tente novamente...\n"); 
+        }
+        else{
+            printf("Valor depositado: %.2fR$\n", valor);
+            saldo += valor; 
+            registrarOperacao('D', valor);
+        }
+    }while(valor <= 0);
+
     /* TODO: peça o valor do depósito com printf + scanf */
 
     /* TODO: valide:
@@ -140,19 +201,14 @@ float realizarDeposito(float saldo) {
 }
 
 
-/* ============================================================
-   registrarOperacao
-   Faz o SHIFT do histórico e insere a nova operação no slot [2].
-   Exemplo de shift:
-       tipoOp[0]  = tipoOp[1];
-       tipoOp[1]  = tipoOp[2];
-       tipoOp[2]  = tipo;       ← nova operação entra aqui
-   Faça o mesmo para valorOp.
-   ============================================================ */
 void registrarOperacao(char tipo, float valor) {
-    /* TODO: implemente o shift para tipoOp  */
+    tipoOp[0]  = tipoOp[1];
+    tipoOp[1]  = tipoOp[2];
+    tipoOp[2]  = tipo;
 
-    /* TODO: implemente o shift para valorOp */
+    valorOp[0] = valorOp[1];
+    valorOp[1] = valorOp[2];
+    valorOp[2] = valor;
 }
 
 
