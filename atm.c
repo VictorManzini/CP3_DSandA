@@ -60,7 +60,7 @@ int main() {
 
     return 0;
 }
-
+//Exibe o menu para o usuario
 void exibirMenu() {
 
     printf("\n========ATM=======\n");
@@ -74,17 +74,18 @@ void exibirMenu() {
 
 }
 
-
+//Consulta o saldo e exibe
 void consultarSaldo(float saldo) {
     printf("Saldo disponivel %.2f\n", saldo);
     printf("\n");
-    printf("Precione Enter para continuar...");
+    printf("Pressione Enter para continuar...");
     getchar();
     printf("\n");
 
 
 }
 
+//simula um saque de ATM
 float realizarSaque(float saldo) {
     float valor;
     int sucesso = 0;
@@ -107,12 +108,13 @@ float realizarSaque(float saldo) {
             sucesso = 1;
         }
     } while(sucesso == 0);
-    printf("\nPrecione Enter para continuar...\n");
+    printf("\nPressione Enter para continuar...\n");
     getchar();
 
     return saldo;
 }
 
+//simula um deposito em uma ATM, adicionando o valor depositado ao saldo
 float realizarDeposito(float saldo) {
     float valor;
     int sucesso = 0;
@@ -130,12 +132,12 @@ float realizarDeposito(float saldo) {
             sucesso = 1;
         }
     } while(sucesso == 0);
-    printf("Precione Enter para continuar...\n");
+    printf("Pressione Enter para continuar...\n");
     getchar();
 
     return saldo;
 }
-
+//Registro das ultimas 3 operacoes
 void registrarOperacao(char tipo, float valor) {
     tipoOp[0]  = tipoOp[1];
     tipoOp[1]  = tipoOp[2];
@@ -146,6 +148,7 @@ void registrarOperacao(char tipo, float valor) {
     valorOp[2] = valor;
 }
 
+//Printa o extrato das ultimas 3 operacoes
 void exibirExtrato(float saldo) {
     int i;
     printf("\n========== EXTRATO ==========\n");
@@ -154,16 +157,16 @@ void exibirExtrato(float saldo) {
             printf("Sem operacao\n"); 
         }
         else if(tipoOp[i] == 'S'){
-            printf("Saque realizado; valor: %.2fR$\n", valorOp[i] );
+            printf("Saque realizado; valor: R$%.2f\n", valorOp[i] );
         }
         else if (tipoOp[i] == 'D'){
-            printf("Deposito realizado; valor: %.2fR$\n", valorOp[i]);
+            printf("Deposito realizado; valor: R$%.2f\n", valorOp[i]);
         }
         else{
             printf("\nERRO!\n");
         }
         }
-    printf("Saldo atual: %.2fR$\n", saldo); 
+    printf("Saldo atual: R$%.2f\n", saldo); 
     printf("=============================\n");
     printf("Pressione Enter para continuar:\n");
     getchar();
